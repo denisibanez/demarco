@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "demarco": {
+    "portal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/demarco",
+            "outputPath": "dist/portal",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -29,7 +29,10 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/scss/_main.scss",
+              "src/assets/scss/_font-format.scss",
+              "src/assets/scss/_variables.scss"
             ],
             "scripts": []
           },
@@ -38,19 +41,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "5000kb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "outputHashing": "all"
@@ -70,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "demarco:build:production"
+              "browserTarget": "portal:build:production"
             },
             "development": {
-              "browserTarget": "demarco:build:development"
+              "browserTarget": "portal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demarco:build"
+            "browserTarget": "portal:build"
           }
         },
         "test": {
@@ -100,10 +97,15 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
+            "codeCoverageExclude": [],
+            "codeCoverage": true,
             "scripts": []
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "d6f884fa-bd5e-431e-aa92-7c8f82f26fdd"
   }
 }

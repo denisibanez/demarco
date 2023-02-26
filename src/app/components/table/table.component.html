@@ -1,0 +1,175 @@
+<mat-card class="table__wrapper" [ngClass]="activeClass">
+  <!-- Title -->
+  <h1 class="table__title" *ngIf="title">
+    {{ title }}
+  </h1>
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    #table
+    (matSortChange)="announceSortChange($event)"
+  >
+    <ng-container
+      *ngFor="let column of columns"
+      [matColumnDef]="column.columnDef"
+    >
+      <!-- Headers -->
+      <th mat-header-cell *matHeaderCellDef>
+        <!-- Header Checkbox -->
+        <ng-container *ngIf="column.header === 'Checkbox'; else default">
+          <mat-checkbox
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+            color="primary"
+          >
+          </mat-checkbox>
+        </ng-container>
+
+        <!-- Header Default -->
+        <ng-template #default>
+          {{ column.header }}
+        </ng-template>
+      </th>
+
+      <!-- Columns Checkbox -->
+      <td mat-cell *matCellDef="let row">
+        <!-- Columns StatusChip -->
+        <ng-container *ngIf="column.columnDef === 'statusChip'; else price">
+          <mat-chip
+            [selected]="column.cell(row).color ? true : false"
+            [style.color]="column.cell(row).color ? '#ffffff' : ''"
+            [color]="column.cell(row).color"
+          >
+            {{ column.cell(row).label }}
+          </mat-chip>
+        </ng-container>
+
+        <!-- Columns Price -->
+        <ng-template #price>
+          <ng-container *ngIf="column.columnDef === 'price'; else date">
+            {{ column.cell(row) | currency }}
+          </ng-container>
+        </ng-template>
+
+        <!-- Columns Date -->
+        <ng-template #date>
+          <ng-container *ngIf="column.columnDef === 'date'; else actions">
+            {{ column.cell(row).start | date : 'dd/MM/yyyy' }} á
+            {{ column.cell(row).end | date : 'dd/MM/yyyy' }}
+          </ng-container>
+        </ng-template>
+
+        <!-- Columns Actions -->
+        <ng-template #actions>
+          <ng-container *ngIf="column.columnDef === 'actions'; else checkbox">
+            <ul>
+              <li *ngFor="let item of column.cell(row)">
+                <!-- Comments -->
+                <ng-container *ngIf="item.type === 'comments'; else linkAction">
+                </ng-container>
+
+                <!-- linkAction -->
+                <ng-template #linkAction>
+                  <ng-container *ngIf="item.type === 'linkAction'; else menu">
+                    <p class="link" (click)="onLinkActionClick(row, item)">
+                      {{ item.label }}
+                    </p>
+                  </ng-container>
+                </ng-template>
+
+                <!-- Menu -->
+                <ng-template #menu>
+                  <ng-container *ngIf="item.type === 'menu'; else switch">
+                    <button mat-icon-button [matMenuTriggerFor]="men">
+                      <i class="fa-light fa-ellipsis"></i>
+                    </button>
+
+                    <mat-menu #men="matMenu" xPosition="before">
+                      <div
+                        style="min-width: 171px; max-height: 186px"
+                        class="menu"
+                      >
+                        <button
+                          mat-menu-item
+                          *ngFor="let men of item.menuItems; let i = index"
+                          style="height: 30px; line-height: 30px"
+                          (click)="actionClick(row, men)"
+                        >
+                          <i
+                            [ngClass]="men.icon"
+                            style="
+                              width: 16px;
+                              height: 16px;
+                              font-size: 16px;
+                              color: #18c29c;
+                              margin-right: 10px;
+                            "
+                          >
+                          </i>
+                          <span>{{ men.label }}</span>
+                        </button>
+                      </div>
+                    </mat-menu>
+                  </ng-container>
+                </ng-template>
+
+                <!-- switch -->
+                <ng-template #switch>
+                  <ng-container *ngIf="item.type === 'switch'; else elseBlock">
+                    <mat-slide-toggle
+                      class="example-margin"
+                      [color]="'primary'"
+                      style="margin: 0 15px"
+                      [checked]="item.checked"
+                      (change)="slideChange($event, item, row)"
+                    >
+                      {{ item.label }}
+                    </mat-slide-toggle>
+                  </ng-container>
+                </ng-template>
+
+                <!-- Buttom StatusChip -->
+                <ng-template #elseBlock>
+                  <button
+                    mat-icon-button
+                    [matTooltip]="item.label"
+                    (click)="actionClick(row, item.action)"
+                  >
+                    <mat-icon> {{ item.icon }}</mat-icon>
+                  </button>
+                </ng-template>
+              </li>
+            </ul>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #checkbox>
+          <ng-container *ngIf="column.columnDef === 'checkbox'; else default">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="
+                [
+                  $event ? selection.toggle(row) : null,
+                  changeCheckbox(row, $event)
+                ]
+              "
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+              color="primary"
+            >
+            </mat-checkbox>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #default>
+          {{ column.cell(row) }}
+        </ng-template>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-card>

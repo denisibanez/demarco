@@ -1,0 +1,62 @@
+{
+  "customers": [
+    { "id": 2, "name": "Carlos Santos", "age": 38, "city": "Belo Horizonte" },
+{ "id": 3, "name": "Mário Silva", "age": 27, "city": "São Paulo" },
+{ "id": 4, "name": "Gilberto Alencar", "age": 32, "city": "Recife" },
+{ "id": 5, "name": "João Alves", "age": 19, "city": "Campo Grande" }
+  ],
+  "orders": [
+    {
+      "id": 2,
+      "total": 8814,
+      "customerId": 1,
+      "items": [
+        {
+          "item": "Camiseta",
+          "value": 2999
+        },
+        {
+          "item": "Bermuda",
+          "value": 5000
+        },
+        {
+          "item": "Boné",
+          "value": 815
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "total": 8790,
+      "customerId": 3,
+      "items": [
+        {
+          "item": "Chinelo Havaiana",
+          "value": 8790
+        }
+      ]
+    }
+  ],
+  "authentication": [
+    {
+      "id": 1,
+      "user": "teste",
+      "password": "teste"
+    },
+    {
+      "user": "asdasdas",
+      "password": "asdasdsda",
+      "id": 2
+    },
+    {
+      "user": "asdas",
+      "password": "dasdasd",
+      "id": 3
+    },
+    {
+      "user": "asdasd",
+      "password": "asdasd",
+      "id": 4
+    }
+  ]
+}

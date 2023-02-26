@@ -1,0 +1,106 @@
+<div *ngIf="!chargeLoader" class="home__wrapper container-fluid">
+  <div class="home__filter">
+    <mat-card class="p-3 m-5">
+      <form novalidate [formGroup]="formAtribute">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <h1>Filtrar</h1>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <mat-divider></mat-divider>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <app-input
+                [type]="inputs.name.type"
+                [label]="inputs.name.label"
+                [control]="inputs.name.control"
+                [formAtribute]="formAtribute"
+              ></app-input>
+            </div>
+            <div class="col-md-4">
+              <app-input
+                [type]="inputs.city.type"
+                [label]="inputs.city.label"
+                [control]="inputs.city.control"
+                [formAtribute]="formAtribute"
+              ></app-input>
+            </div>
+
+            <div class="col-md-2">
+              <app-button-raised
+                [large]="true"
+                [label]="'Filtrar'"
+                [icon]="'filter_alt'"
+                [loader]="loader"
+                class="fix-position"
+                [disabled]="
+                  !formAtribute.controls['name'].valid &&
+                  !formAtribute.controls['city'].valid
+                "
+                (btnClick)="getList()"
+              >
+              </app-button-raised>
+            </div>
+
+            <div class="col-md-2">
+              <app-button-raised
+                [large]="true"
+                [label]="'Limpar'"
+                [icon]="'clear_all'"
+                [loader]="loader"
+                class="fix-position"
+                (btnClick)="clear()"
+              >
+              </app-button-raised>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+
+  <div class="home__list m-5">
+    <app-table
+      *ngIf="customers.length"
+      [title]="'Lista de clientes'"
+      [displayedColumns]="displayedColumns"
+      [columns]="columns"
+      [items]="customers"
+      (ActionBtnClick)="ActionBtnClick($event)"
+    ></app-table>
+
+    <div *ngIf="!customers.length">
+      <h1>Não existem registros.</h1>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 flex-end mt-3">
+        <app-button-raised
+          [large]="true"
+          [label]="'Incluir novo cliente'"
+          [icon]="'add'"
+          (btnClick)="openDialog('open-add')"
+        >
+        </app-button-raised>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-dialog-detail
+  *ngIf="selectedITem"
+  (closeClick)="openDialog('#')"
+></app-dialog-detail>
+
+<app-dialog-delete
+  *ngIf="selectedITem"
+  (closeClick)="[openDialog('#'), getList()]"
+></app-dialog-delete>
+
+<app-dialog-add (closeClick)="openDialog('#')"></app-dialog-add>

@@ -1,0 +1,17 @@
+<!-- Outlined Button -->
+<button
+  [color]="color"
+  [disabled]="disabled"
+  mat-stroked-button
+  class="mat-elevation-z"
+  [ngClass]="{ btnCustom__error: color === 'error', size__large: large }"
+  (click)="onBtnClick()"
+>
+  <mat-icon>
+    {{ icon }}
+  </mat-icon>
+
+  {{ label }}
+
+  <mat-spinner *ngIf="loader"></mat-spinner>
+</button>

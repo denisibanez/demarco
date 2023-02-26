@@ -23,7 +23,7 @@ export class SnackbarComponent implements OnChanges {
   constructor(public snackBar: MatSnackBar) {}
 
   ngOnChanges(): void {
-    if (this.show)
+    if (this.show) {
       this.openSnackBar(
         this.message,
         this.duration,
@@ -32,6 +32,7 @@ export class SnackbarComponent implements OnChanges {
         this.horizontalPosition,
         this.verticalPosition
       );
+    }
   }
 
   openSnackBar(

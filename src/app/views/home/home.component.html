@@ -33,6 +33,18 @@
             </div>
 
             <div class="col-md-2">
+              <app-button-outlined
+                [large]="true"
+                [label]="'Limpar'"
+                [icon]="'clear_all'"
+                [loader]="loader"
+                class="fix-position"
+                (btnClick)="clear()"
+              >
+              </app-button-outlined>
+            </div>
+
+            <div class="col-md-2">
               <app-button-raised
                 [large]="true"
                 [label]="'Filtrar'"
@@ -44,18 +56,6 @@
                   !formAtribute.controls['city'].valid
                 "
                 (btnClick)="getList()"
-              >
-              </app-button-raised>
-            </div>
-
-            <div class="col-md-2">
-              <app-button-raised
-                [large]="true"
-                [label]="'Limpar'"
-                [icon]="'clear_all'"
-                [loader]="loader"
-                class="fix-position"
-                (btnClick)="clear()"
               >
               </app-button-raised>
             </div>
@@ -95,7 +95,7 @@
 
 <app-dialog-detail
   *ngIf="selectedITem"
-  (closeClick)="openDialog('#')"
+  (closeClick)="[cleanItemSelect, openDialog('#')]"
 ></app-dialog-detail>
 
 <app-dialog-delete
@@ -103,4 +103,4 @@
   (closeClick)="[openDialog('#'), getList()]"
 ></app-dialog-delete>
 
-<app-dialog-add (closeClick)="openDialog('#')"></app-dialog-add>
+<app-dialog-add (closeClick)="[openDialog('#'), getList()]"></app-dialog-add>

@@ -1,2 +1,4 @@
 {
+  "login/*": "/$1",
+  "/orders/:customerId" : "/orders/:customerId"
 }

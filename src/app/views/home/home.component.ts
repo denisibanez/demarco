@@ -10,7 +10,7 @@ import { Select, Store } from '@ngxs/store';
 import { LoaderSelectors } from '../../store/loading/loading.selectors';
 import { SnackbarSelectors } from '../../store/snackbar/snackbar.selectors';
 import { SelectedItemSelectors } from '../../store/selectedItem/selectedItem.selectors';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { ChangeLoaderState } from '../../store/loading/loading.actions';
 import { ChangeSnackbarState } from '../../store/snackbar/snackbar.actions';
 
@@ -112,7 +112,12 @@ export class HomeComponent implements OnInit {
   }
 
   ActionBtnClick($event: any) {
-    this.store.dispatch(new ChangeSelectedItemState($event));
+    this.store.dispatch(
+      new ChangeSelectedItemState({
+        item: $event,
+        key: $event.men,
+      })
+    );
     if ($event.men === 'SHOW_DETAIL') {
       this.openDialog('open-modal');
     }
@@ -122,9 +127,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  cleanItemSelect() {
+    this.store.dispatch(new ChangeSelectedItemState({}));
+  }
+
   getList() {
     this.store.dispatch(new ChangeLoaderState(true));
-    this.store.dispatch(new ChangeSelectedItemState({}));
     let payload;
     if (this.formAtribute.controls['name'].valid) {
       payload = `name=${this.formAtribute.controls['name'].value}&`;
@@ -136,51 +144,72 @@ export class HomeComponent implements OnInit {
       }`;
     }
 
-    this.homeHttpService.getCustomers(payload ? payload : '').subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.customers = response.map((item: any) => {
-          const { id, name, age, city } = item;
+    this.cleanItemSelect();
 
-          const newItem = {
-            id,
-            name,
-            age,
-            city,
-            actions: [
-              {
-                icon: 'visibility',
-                action: 'SHOW_DETAIL',
-                label: 'Detalhe',
-              },
-              {
-                icon: 'delete',
-                action: 'DELETE',
-                label: 'deletar',
-              },
-            ],
-          };
-          return newItem;
-        });
-        this.store.dispatch(new ChangeLoaderState(false));
-      },
-      error: (error) => {
-        console.log(error);
-        this.store.dispatch(new ChangeLoaderState(false));
-        this.store.dispatch(
-          new ChangeSnackbarState({
-            duration: 15000,
-            icon: 'error',
-            theme: 'error-theme',
-            message:
-              'Desculpe, a requisição falhou! Por favor, Tente novamente.',
-            horizontalPosition: 'bottom',
-            verticalPosition: 'center',
-            show: true,
-          })
-        );
-      },
-    });
+    this.homeHttpService
+      .getCustomers(payload ? payload : '')
+      .pipe(
+        finalize(() => {
+          this.store.dispatch(
+            new ChangeSnackbarState({
+              duration: 5000,
+              icon: 'error',
+              theme: 'error-theme',
+              message:
+                'Desculpe, a requisição falhou! Por favor, Tente novamente.',
+              horizontalPosition: 'bottom',
+              verticalPosition: 'center',
+              show: false,
+            })
+          );
+        })
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.customers = response.map((item: any) => {
+            const { id, name, age, city } = item;
+
+            const newItem = {
+              id,
+              name,
+              age,
+              city,
+              actions: [
+                {
+                  icon: 'visibility',
+                  action: 'SHOW_DETAIL',
+                  label: 'Detalhe',
+                },
+                {
+                  icon: 'delete',
+                  action: 'DELETE',
+                  label: 'deletar',
+                },
+              ],
+            };
+            return newItem;
+          });
+          this.store.dispatch(new ChangeLoaderState(false));
+          this.formAtribute.reset();
+        },
+        error: (error) => {
+          console.log(error);
+          this.store.dispatch(new ChangeLoaderState(false));
+          this.store.dispatch(
+            new ChangeSnackbarState({
+              duration: 5000,
+              icon: 'error',
+              theme: 'error-theme',
+              message:
+                'Desculpe, a requisição falhou! Por favor, Tente novamente.',
+              horizontalPosition: 'bottom',
+              verticalPosition: 'center',
+              show: true,
+            })
+          );
+        },
+      });
   }
 
   clear() {

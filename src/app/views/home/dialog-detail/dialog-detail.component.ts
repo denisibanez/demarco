@@ -9,7 +9,7 @@ import { LoaderSelectors } from '../../../store/loading/loading.selectors';
 import { SnackbarSelectors } from '../../../store/snackbar/snackbar.selectors';
 import { SelectedItemSelectors } from '../../../store/selectedItem/selectedItem.selectors';
 
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { ChangeLoaderState } from '../../../store/loading/loading.actions';
 import { ChangeSnackbarState } from '../../../store/snackbar/snackbar.actions';
 
@@ -40,16 +40,17 @@ export class DialogDetailComponent implements OnInit {
   ngOnInit(): void {
     this.selectedITem$.subscribe((u) => {
       this.selectedITem = u;
-      this.title = `Detalhe do cliente - ${this.selectedITem?.key?.name}`;
-      this.customer = this.selectedITem?.key;
+      this.title = `Detalhe do cliente - ${this.selectedITem?.item?.key?.name}`;
+      this.customer = this.selectedITem?.item?.key;
 
-      if (this.selectedITem) {
-        this.getOrders(this.selectedITem?.key?.id);
+      if (this.selectedITem?.key === 'SHOW_DETAIL') {
+        this.getOrders(this.selectedITem?.item?.key?.id);
       }
     });
   }
 
   closeDialog() {
+    this.orders = [];
     this.closeClick.emit();
   }
 
@@ -57,29 +58,48 @@ export class DialogDetailComponent implements OnInit {
     this.loading = true;
 
     if (id) {
-      this.homeHttpService.getOrders(id).subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.loading = false;
-          this.orders = response.items;
-        },
-        error: (error) => {
-          console.log(error);
-          this.loading = false;
-          this.store.dispatch(
-            new ChangeSnackbarState({
-              duration: 15000,
-              icon: 'error',
-              theme: 'error-theme',
-              message:
-                'Desculpe, a requisição falhou! Por favor, Tente novamente.',
-              horizontalPosition: 'bottom',
-              verticalPosition: 'center',
-              show: true,
-            })
-          );
-        },
-      });
+      this.homeHttpService
+        .getOrders(id)
+        .pipe(
+          finalize(() => {
+            this.store.dispatch(
+              new ChangeSnackbarState({
+                duration: 5000,
+                icon: 'error',
+                theme: 'error-theme',
+                message:
+                  'Desculpe, a requisição falhou! Por favor, Tente novamente.',
+                horizontalPosition: 'bottom',
+                verticalPosition: 'center',
+                show: false,
+              })
+            );
+          })
+        )
+        .subscribe({
+          next: (response: any) => {
+            console.log(response);
+            this.loading = false;
+            this.orders = response.items;
+          },
+          error: (error) => {
+            console.log(error);
+            this.loading = false;
+
+            this.store.dispatch(
+              new ChangeSnackbarState({
+                duration: 5000,
+                icon: 'error',
+                theme: 'error-theme',
+                message:
+                  'Desculpe, a requisição falhou! Por favor, Tente novamente.',
+                horizontalPosition: 'bottom',
+                verticalPosition: 'center',
+                show: true,
+              })
+            );
+          },
+        });
     }
   }
 }

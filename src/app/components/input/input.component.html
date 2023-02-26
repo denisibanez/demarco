@@ -30,6 +30,19 @@
     type="text"
     matInput
   />
+
+  <!-- number -->
+  <input
+    *ngIf="type === 'number'"
+    [(ngModel)]="input"
+    [placeholder]="placeholder"
+    [formControlName]="control"
+    [maxlength]="maxlength"
+    (focus)="onFocus(item)"
+    (blur)="onBlur(item)"
+    type="number"
+    matInput
+  />
   <!-- Currency -->
   <input
     *ngIf="type === 'currency'"

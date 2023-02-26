@@ -1,6 +1,6 @@
 <app-dialog
   [title]="title"
-  [width]="'80%'"
+  [width]="'60%'"
   [height]="'auto'"
   (closeClick)="closeDialog()"
 >
@@ -16,8 +16,8 @@
             <div mat-line><strong>Idade</strong>: {{ customer.age }}</div>
             <div mat-line><strong>Cidade</strong>: {{ customer.city }}</div>
           </mat-list-item>
-          <mat-divider></mat-divider>
-          <h1 class="mt-3">Compras</h1>
+          <mat-divider *ngIf="orders.length"></mat-divider>
+          <h1 class="mt-3" *ngIf="orders.length">Compras</h1>
           <mat-list-item *ngFor="let order of orders">
             <mat-icon color="primary" mat-list-icon>shopping_bag</mat-icon>
             <div mat-line><strong>Item</strong>: {{ order.item }}</div>

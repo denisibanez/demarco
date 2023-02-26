@@ -22,4 +22,8 @@ export class HomeHttpService {
   deleteClient(customerId: any) {
     return this.http.delete(`${environment.BASE_PATH}customers/${customerId}`);
   }
+
+  postCustomer(payload: any) {
+    return this.http.post(`${environment.BASE_PATH}customers`, payload);
+  }
 }

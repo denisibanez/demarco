@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
         console.log(error);
         this.store.dispatch(
           new ChangeSnackbarState({
-            duration: 15000,
+            duration: 5000,
             icon: 'error',
             theme: 'error-theme',
             message:

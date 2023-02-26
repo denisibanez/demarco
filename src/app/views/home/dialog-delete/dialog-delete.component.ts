@@ -7,7 +7,7 @@ import { Select, Store } from '@ngxs/store';
 import { SnackbarSelectors } from '../../../store/snackbar/snackbar.selectors';
 import { SelectedItemSelectors } from '../../../store/selectedItem/selectedItem.selectors';
 
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { ChangeSnackbarState } from '../../../store/snackbar/snackbar.actions';
 
 @Component({
@@ -34,8 +34,10 @@ export class DialogDeleteComponent implements OnInit {
   ngOnInit(): void {
     this.selectedITem$.subscribe((u) => {
       this.selectedITem = u;
-      this.title = `Detalhe do cliente - ${this.selectedITem?.key?.name}`;
-      this.clientName = this.selectedITem?.key?.name;
+      if (this.selectedITem) {
+        this.title = `Detalhe do cliente - ${this.selectedITem?.item?.key?.name}`;
+        this.clientName = this.selectedITem?.item?.key?.name;
+      }
     });
   }
 
@@ -45,39 +47,57 @@ export class DialogDeleteComponent implements OnInit {
 
   deleteCustomer() {
     this.loading = true;
-    this.homeHttpService.deleteClient(this.selectedITem?.key.id).subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.loading = false;
-        this.store.dispatch(
-          new ChangeSnackbarState({
-            duration: 15000,
-            icon: 'check_circle',
-            theme: 'success-theme',
-            message: 'Operação efetuada com sucesso!',
-            horizontalPosition: 'bottom',
-            verticalPosition: 'center',
-            show: true,
-          })
-        );
-        this.closeDialog();
-      },
-      error: (error) => {
-        console.log(error);
-        this.loading = false;
-        this.store.dispatch(
-          new ChangeSnackbarState({
-            duration: 15000,
-            icon: 'error',
-            theme: 'error-theme',
-            message:
-              'Desculpe, a requisição falhou! Por favor, Tente novamente.',
-            horizontalPosition: 'bottom',
-            verticalPosition: 'center',
-            show: true,
-          })
-        );
-      },
-    });
+    this.homeHttpService
+      .deleteClient(this.selectedITem?.item.key.id)
+      .pipe(
+        finalize(() => {
+          this.store.dispatch(
+            new ChangeSnackbarState({
+              duration: 5000,
+              icon: 'error',
+              theme: 'error-theme',
+              message:
+                'Desculpe, a requisição falhou! Por favor, Tente novamente.',
+              horizontalPosition: 'bottom',
+              verticalPosition: 'center',
+              show: false,
+            })
+          );
+        })
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.loading = false;
+          this.store.dispatch(
+            new ChangeSnackbarState({
+              duration: 5000,
+              icon: 'check_circle',
+              theme: 'success-theme',
+              message: 'Operação efetuada com sucesso!',
+              horizontalPosition: 'bottom',
+              verticalPosition: 'center',
+              show: true,
+            })
+          );
+          this.closeDialog();
+        },
+        error: (error) => {
+          console.log(error);
+          this.loading = false;
+          this.store.dispatch(
+            new ChangeSnackbarState({
+              duration: 5000,
+              icon: 'error',
+              theme: 'error-theme',
+              message:
+                'Desculpe, a requisição falhou! Por favor, Tente novamente.',
+              horizontalPosition: 'bottom',
+              verticalPosition: 'center',
+              show: true,
+            })
+          );
+        },
+      });
   }
 }

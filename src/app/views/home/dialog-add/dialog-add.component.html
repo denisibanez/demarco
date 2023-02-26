@@ -1,9 +1,59 @@
 <app-dialog
   [title]="'Adicionar novo cliente'"
-  [width]="'80%'"
+  [width]="'60%'"
   [height]="'auto'"
   [id]="'open-add'"
   (closeClick)="closeDialog()"
 >
-  <div class="dialog__wrapper content">add</div>
+  <div class="dialog__wrapper content">
+    <mat-card class="p-3 m-5">
+      <form novalidate [formGroup]="formAtribute">
+        <div class="row">
+          <div class="col-md-12">
+            <app-input
+              [type]="inputs.name.type"
+              [label]="inputs.name.label"
+              [control]="inputs.name.control"
+              [formAtribute]="formAtribute"
+            ></app-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <app-input
+              [type]="inputs.city.type"
+              [label]="inputs.city.label"
+              [control]="inputs.city.control"
+              [formAtribute]="formAtribute"
+            ></app-input>
+          </div>
+
+          <div class="col-md-6">
+            <app-input
+              [type]="inputs.age.type"
+              [label]="inputs.age.label"
+              [control]="inputs.age.control"
+              [formAtribute]="formAtribute"
+            ></app-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="offset-lg-10 col-md-2">
+            <app-button-raised
+              [large]="true"
+              [label]="'Incluir'"
+              [icon]="'save'"
+              [loader]="loader"
+              [disabled]="!formAtribute.valid"
+              class="fix-position"
+              (btnClick)="submit()"
+            >
+            </app-button-raised>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </div>
 </app-dialog>

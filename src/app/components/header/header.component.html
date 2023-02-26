@@ -12,7 +12,10 @@
         </div>
       </div>
 
-      <div class="col-lg-4 header__brand flex-end">
+      <div
+        class="col-lg-4 header__brand flex-end"
+        *ngIf="router.url !== '/login'"
+      >
         <p (click)="logout()">Sair</p>
       </div>
     </div>

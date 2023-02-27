@@ -1,7 +1,7 @@
 # DemacroCancel changes
 
 # Informações
-Esse projeto usa:
+Esse projeto usa: <br />
 Eslint
 Angular
 Reative Forms

@@ -2,26 +2,26 @@
 
 # Informações
 Esse projeto usa: <br />
-Eslint
-Angular
-Reative Forms
-Angular Material
-Angular Router
-@ngxs/store
-@ngxs/translate
-Angular Imask
-Date Fns
-ng2-currency-mask
-husky
-Prettier
-jest
-Typescript
+Eslint <br />
+Angular <br /> 
+Reative Forms <br /> 
+Angular Material <br /> 
+Angular Router <br / >  
+@ngxs/store <br / >  
+@ngxs/translate <br / >  
+Angular Imask <br / >  
+Date Fns <br / >  
+ng2-currency-mask <br / >  
+husky <br / >  
+Prettier <br / >  
+jest <br / >  
+Typescript <br / >  
 
 # Comandos importantes:
 
-# npm run test --coverage -u
-# npm run format
-# npm run lint
+npm run test --coverage -u <br / >  
+npm run format <br / >  
+npm run lint <br / >  
 
  obs: iria documentar os componentes com Storybook mas nao deu tempo
 

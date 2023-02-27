@@ -19,9 +19,9 @@ Typescript
 
 # Comandos importantes:
 
-#npm run test --coverage -u
-#npm run format
-#npm run lint
+# npm run test --coverage -u
+# npm run format
+# npm run lint
 
  obs: iria documentar os componentes com Storybook mas nao deu tempo
 

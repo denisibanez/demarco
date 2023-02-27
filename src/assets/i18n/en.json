@@ -1,0 +1,23 @@
+{
+    "LANGUAGE_CODE": "en",
+    "ERROR_MESSAGE": "Sorry, the request failed! Please try again",
+    "CODE": "Code",
+    "NAME": "Name",
+    "AGE": "Age",
+    "CITY": "City",
+    "ACTIONS": "Actions",
+    "LABEL_NAME": "Name",
+    "PLACEHOLDER_NAME": "Type the name",
+    "LABEL_CITY": "City",
+    "PLACEHOLDER_CITY": "Type the city",
+    "LABEL_DETAIL": "Detail",
+    "LABEL_DELETE": "Delete",
+    "FILTER": "Filter",
+    "CUSTOMER_LIST": "Customer List",
+    "CLEAR": "Clear",
+    "NO_REGISTERS": "Register not found.",
+    "ADD_CUSTOMER": "Include new customer",
+    "LOGOUT": "Logout",
+    "TEC_TITLE": "Tech Challenge",
+    "INPUT_ERROR": "The field {{ label }} is required"
+}

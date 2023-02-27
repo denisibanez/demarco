@@ -61,7 +61,10 @@
     {{ icon }}
   </mat-icon>
   <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-  <mat-error *ngIf="formAtribute.invalid"
-    >O campo {{ label.toLowerCase() }} é inválido.</mat-error
+  <mat-error
+    *ngIf="formAtribute.invalid"
+    [translate]="'INPUT_ERROR'"
+    [translateParams]="{ label: label.toLowerCase() }"
   >
+  </mat-error>
 </mat-form-field>

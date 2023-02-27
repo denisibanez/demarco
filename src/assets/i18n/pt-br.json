@@ -1,0 +1,23 @@
+{
+    "LANGUAGE_CODE": "pt-BR",
+    "ERROR_MESSAGE": "Desculpe, a requisição falhou! Por favor, Tente novamente.",
+    "CODE": "Código",
+    "NAME": "Nome",
+    "AGE": "Idade",
+    "CITY": "Cidade",
+    "ACTIONS": "Ações",
+    "LABEL_NAME": "Nome",
+    "PLACEHOLDER_NAME": "Digite o nome",
+    "LABEL_CITY": "Cidade",
+    "PLACEHOLDER_CITY": "Digite a cidade",
+    "LABEL_DETAIL": "Detalhe",
+    "LABEL_DELETE": "Remover",
+    "FILTER": "Filtrar",
+    "CUSTOMER_LIST": "Lista de Clientes",
+    "CLEAR": "Limpar",
+    "ADD_CUSTOMER": "Incluir novo cliente",
+    "LOGOUT": "Sair",
+    "TEC_TITLE": "Desafio Técnico",
+    "INPUT_ERROR": "O campo {{ label }} é obrigatório",
+    "NO_REGISTERS": "Não existem registros"
+}

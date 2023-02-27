@@ -6,10 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// import ngx-translate and the http loader
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
 // Services
 import { HomeService } from '../../src/app/services/axios';
-
-import { HttpClientModule } from '@angular/common/http';
 
 // Services http request
 import { httpInterceptorProviders } from './services/httpRequest/interceptor';
@@ -45,6 +48,11 @@ import { DialogDetailComponent } from './views/home/dialog-detail/dialog-detail.
 import { DialogDeleteComponent } from './views/home/dialog-delete/dialog-delete.component';
 import { DialogAddComponent } from './views/home/dialog-add/dialog-add.component';
 
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}
+
 @NgModule({
   imports: [
     HttpClientModule,
@@ -60,6 +68,13 @@ import { DialogAddComponent } from './views/home/dialog-add/dialog-add.component
     IMaskModule,
     CurrencyMaskModule,
     FormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
   declarations: [
     AppComponent,

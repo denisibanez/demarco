@@ -13,6 +13,10 @@ import { finalize, Observable } from 'rxjs';
 import { ChangeLoaderState } from '../../../store/loading/loading.actions';
 import { ChangeSnackbarState } from '../../../store/snackbar/snackbar.actions';
 
+//model
+import { customers } from 'src/app/models/customers.model';
+import { ordemItem } from 'src/app/models/ordemItem.model';
+
 @Component({
   selector: 'app-dialog-detail',
   templateUrl: './dialog-detail.component.html',
@@ -31,8 +35,22 @@ export class DialogDetailComponent implements OnInit {
   public selectedITem!: any;
   public title: string = `Detalhe do cliente`;
 
-  customer: any = null;
-  orders: any[] = [];
+  customer: customers = {
+    name: '',
+    id: 0,
+    age: 0,
+    city: '',
+  };
+  orders: ordemItem[] = [
+    {
+      item: '',
+      value: 0,
+    },
+    {
+      item: '',
+      value: 0,
+    },
+  ];
   loading: boolean = false;
 
   constructor(private store: Store, private homeHttpService: HomeHttpService) {}

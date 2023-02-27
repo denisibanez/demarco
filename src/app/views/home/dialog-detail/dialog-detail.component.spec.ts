@@ -22,6 +22,15 @@ import { ChangeSelectedItemState } from '../../../store/selectedItem/selectedIte
 import { HttpClientModule } from '@angular/common/http';
 import { DialogDetailComponent } from './dialog-detail.component';
 
+// import ngx-translate and the http loader
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}
+
 describe('DialogDetailComponent', () => {
   let component: DialogDetailComponent;
   let fixture: ComponentFixture<DialogDetailComponent>;
@@ -39,6 +48,13 @@ describe('DialogDetailComponent', () => {
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
       ],
     }).compileComponents();
 

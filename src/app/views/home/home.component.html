@@ -5,7 +5,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
-              <h1>Filtrar</h1>
+              <h1>{{ 'FILTER' | translate }}</h1>
             </div>
           </div>
 
@@ -35,7 +35,7 @@
             <div class="col-md-2">
               <app-button-outlined
                 [large]="true"
-                [label]="'Limpar'"
+                [label]="clearLabel"
                 [icon]="'clear_all'"
                 [loader]="loader"
                 class="fix-position"
@@ -47,7 +47,7 @@
             <div class="col-md-2">
               <app-button-raised
                 [large]="true"
-                [label]="'Filtrar'"
+                [label]="filterLabel"
                 [icon]="'filter_alt'"
                 [loader]="loader"
                 class="fix-position"
@@ -68,7 +68,7 @@
   <div class="home__list m-5">
     <app-table
       *ngIf="customers.length"
-      [title]="'Lista de clientes'"
+      [title]="customerListLabel"
       [displayedColumns]="displayedColumns"
       [columns]="columns"
       [items]="customers"
@@ -76,14 +76,14 @@
     ></app-table>
 
     <div *ngIf="!customers.length">
-      <h1>Não existem registros.</h1>
+      <h1>{{ 'NO_REGISTERS' | translate }}</h1>
     </div>
 
     <div class="row">
       <div class="col-md-12 flex-end mt-3">
         <app-button-raised
           [large]="true"
-          [label]="'Incluir novo cliente'"
+          [label]="addCustomerLabel"
           [icon]="'add'"
           (btnClick)="openDialog('open-add')"
         >

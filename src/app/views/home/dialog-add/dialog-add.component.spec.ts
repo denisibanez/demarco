@@ -23,6 +23,15 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { DialogAddComponent } from './dialog-add.component';
 
+// import ngx-translate and the http loader
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}
+
 describe('DialogAddComponent', () => {
   let component: DialogAddComponent;
   let fixture: ComponentFixture<DialogAddComponent>;
@@ -40,6 +49,13 @@ describe('DialogAddComponent', () => {
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
       ],
     }).compileComponents();
 

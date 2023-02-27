@@ -7,7 +7,7 @@
             <img src="../../../assets/img/logo.png" alt="" />
           </div>
           <div class="d-none d-xl-block">
-            <p>Desafio Técnico</p>
+            <p>{{ 'TEC_TITLE' | translate }}</p>
           </div>
         </div>
       </div>
@@ -16,7 +16,19 @@
         class="col-lg-4 header__brand flex-end"
         *ngIf="router.url !== '/login'"
       >
-        <p (click)="logout()">Sair</p>
+        <div>
+          <mat-button-toggle-group name="Linguaguem">
+            <mat-button-toggle
+              value="pt-br"
+              (change)="onValChange($event.value)"
+              >Português</mat-button-toggle
+            >
+            <mat-button-toggle value="en" (change)="onValChange($event.value)"
+              >Inglês</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+        <p (click)="logout()">{{ 'LOGOUT' | translate }}</p>
       </div>
     </div>
   </div>

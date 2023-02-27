@@ -17,7 +17,7 @@ Prettier
 jest
 Typescript
 
-# : finish'Comandos importantes:
+# Comandos importantes:
 
 npm run test --coverage -u
 npm run format
